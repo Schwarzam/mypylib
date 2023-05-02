@@ -36,6 +36,9 @@ def create_new_collection(collection_name, base_path, package_name= "mypylib"):
     """
     # Split the collection name into individual words
     words = collection_name.split('.')
+    for word in words:
+        if word == package_name:
+            raise ValueError(f"Collection name cannot be {package_name}")
     
     # Create the root folder for the collection
     root_folder = os.path.join(base_path, words[0])
