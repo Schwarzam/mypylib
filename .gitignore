@@ -1,3 +1,7 @@
+mypylib/*
+!mypylib/__init__.py
+!mypylib/mypylib
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
