@@ -1,5 +1,7 @@
 import os
-from mypylib.mypylib.auxiliars import get_last_folder_name, extract_folder_hierarchy, extract_subfolder_path2mod
+
+import mypylib
+from mypylib.mypylib.auxiliars import get_last_folder_name, extract_folder_hierarchy, extract_subfolder_path2mod, remove_folder
 
 def init_folder(folder, base_path, package_name = "mypylib"):
     init_path = os.path.join(folder, "__init__.py")
@@ -28,7 +30,7 @@ def init_folder(folder, base_path, package_name = "mypylib"):
         with open(outside_folder_init, 'a') as init_file:
             init_file.write(f"{import_line}\n")
 
-def create_new_collection(collection_name, base_path, package_name="mypylib"):
+def create_new_collection(collection_name, base_path, package_name= "mypylib"):
     """
     Creates a new folder hierarchy based on the given collection name.
     """
@@ -47,7 +49,7 @@ def create_new_collection(collection_name, base_path, package_name="mypylib"):
         os.makedirs(current_folder, exist_ok=True)
         init_folder(current_folder, base_path, package_name)
 
-def remove_collection(collection_name, base_path, package_name):
+def remove_collection(collection_name, base_path=mypylib.__path__[0], package_name = "mypylib"):
     words = collection_name.split('.')
 
     folder = base_path
