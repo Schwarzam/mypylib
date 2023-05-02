@@ -3,7 +3,19 @@ import os
 import mypylib
 from mypylib.mypylib.auxiliars import get_last_folder_name, extract_folder_hierarchy, extract_subfolder_path2mod, remove_folder
 
-def init_folder(folder, base_path, package_name = "mypylib"):
+def init_folder(folder, base_path, package_name="mypylib"):
+    """Initializes a folder with an empty __init__.py file and adds an import statement to its parent folder's __init__.py file.
+
+    Parameters
+    ----------
+    folder : str
+        The path to the folder to initialize.
+    base_path : str
+        The base path of the mypylib package.
+    package_name : str, optional
+        The name of the package (default is "mypylib").
+
+    """
     init_path = os.path.join(folder, "__init__.py")
     if not os.path.exists(init_path):
         open(init_path, "w")
@@ -16,7 +28,7 @@ def init_folder(folder, base_path, package_name = "mypylib"):
     with open(outside_folder_init, 'r') as init_file:
         lines = init_file.readlines()
     
-    # Check if the function is already imported
+    # Check if the module is already imported
     mod_name = extract_subfolder_path2mod(folder, base_path)
     import_line = f"import {package_name}.{mod_name}"
     import_found = False
@@ -30,9 +42,24 @@ def init_folder(folder, base_path, package_name = "mypylib"):
         with open(outside_folder_init, 'a') as init_file:
             init_file.write(f"{import_line}\n")
 
-def create_new_collection(collection_name, base_path, package_name= "mypylib"):
-    """
-    Creates a new folder hierarchy based on the given collection name.
+
+def create_new_collection(collection_name, base_path, package_name="mypylib"):
+    """Creates a new collection in the mypylib package.
+
+    Parameters
+    ----------
+    collection_name : str
+        The name of the collection to create.
+    base_path : str
+        The base path of the mypylib package.
+    package_name : str, optional
+        The name of the package (default is "mypylib").
+
+    Raises
+    ------
+    ValueError
+        If the collection name is equal to the package name.
+
     """
     # Split the collection name into individual words
     words = collection_name.split('.')
@@ -52,7 +79,19 @@ def create_new_collection(collection_name, base_path, package_name= "mypylib"):
         os.makedirs(current_folder, exist_ok=True)
         init_folder(current_folder, base_path, package_name)
 
-def remove_collection(collection_name, base_path=mypylib.__path__[0], package_name = "mypylib"):
+def remove_collection(collection_name, base_path=mypylib.__path__[0], package_name="mypylib"):
+    """Removes a collection from the mypylib package.
+
+    Parameters
+    ----------
+    collection_name : str
+        The name of the collection to remove.
+    base_path : str, optional
+        The base path of the mypylib package (default is mypylib.__path__[0]).
+    package_name : str, optional
+        The name of the package (default is "mypylib").
+
+    """
     words = collection_name.split('.')
 
     folder = base_path
@@ -64,7 +103,7 @@ def remove_collection(collection_name, base_path=mypylib.__path__[0], package_na
     with open(outside_folder_init, 'r') as init_file:
         lines = init_file.readlines()
 
-    # Check if the function is already imported
+    # Check if the module is already imported
     mod_name = extract_subfolder_path2mod(folder, base_path)
     import_line = f"import {package_name}.{mod_name}"
     import_found = False

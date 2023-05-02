@@ -6,6 +6,18 @@ from mypylib.mypylib.auxiliars import strip_line_with_content, file_contains_fun
 from mypylib.mypylib.collections import create_new_collection
 
 def remove_function(function_name, collection="", module_name="main"):
+    """Removes a function from a Python module and its corresponding import statement from a collection's __init__.py file.
+
+    Parameters
+    ----------
+    function_name : str
+        The name of the function to remove.
+    collection : str, optional
+        The name of the collection that contains the module to modify (default is "").
+    module_name : str, optional
+        The name of the module to modify (default is "main").
+
+    """
     base_path = mypylib.__path__[0]
         
     collection_folder = base_path
@@ -31,8 +43,19 @@ def remove_function(function_name, collection="", module_name="main"):
     remove_function_from_file(module_filepath, function_name)
 
 
-
 def update_init_file(init_file_path, module_name, function_name):
+    """Updates a collection's __init__.py file with an import statement for a given function.
+
+    Parameters
+    ----------
+    init_file_path : str
+        The path to the __init__.py file to modify.
+    module_name : str
+        The name of the module to import the function from.
+    function_name : str
+        The name of the function to import.
+
+    """
     # Read the contents of the __init__.py file
     with open(init_file_path, 'r') as init_file:
         lines = init_file.readlines()
@@ -51,19 +74,39 @@ def update_init_file(init_file_path, module_name, function_name):
         with open(init_file_path, 'a') as init_file:
             init_file.write(f"{import_line}\n")
 
-def add_function(function_name, source_code, module, collection="", overwrite=False, base_path = mypylib.__path__[0]):    
+def add_function(function_name, source_code, module, collection="", overwrite=False, base_path=mypylib.__path__[0]):
+    """Adds a function to a Python module and updates its corresponding import statement in a collection's __init__.py file.
+
+    Parameters
+    ----------
+    function_name : str
+        The name of the function to add.
+    source_code : str
+        The source code of the function to add.
+    module : str
+        The name of the module to add the function to.
+    collection : str, optional
+        The name of the collection to add the module to (default is "").
+    overwrite : bool, optional
+        Whether to overwrite an existing function with the same name (default is False).
+    base_path : str, optional
+        The base path of the mypylib package (default is mypylib.__path__[0]).
+
+    Raises
+    ------
+    Exception
+        If the function already exists in the specified module and overwrite is False.
+
+    """
     collection_folder = base_path
     words = collection.split('.')
     for word in words:
         collection_folder = os.path.join(collection_folder, word)
     
-    
     if collection != "":
         create_new_collection(collection, base_path, package_name="mypylib")
-        pass
     
-    module_path = os.path.join(collection_folder,  module + ".py")
-
+    module_path = os.path.join(collection_folder, module + ".py")
 
     if file_contains_function(module_path, function_name):
         if not overwrite:
@@ -77,8 +120,26 @@ def add_function(function_name, source_code, module, collection="", overwrite=Fa
     init_file_path = os.path.join(collection_folder, "__init__.py")
     update_init_file(init_file_path, module, function_name)
 
+
 ## DECORATOR
 def add(collection="", module="main", overwrite=False):
+    """Decorator that adds a function to a module and its corresponding import statement to a collection's __init__.py file.
+
+    Parameters
+    ----------
+    collection : str, optional
+        The name of the collection to add the module and function to (default is "").
+    module : str, optional
+        The name of the module to add the function to (default is "main").
+    overwrite : bool, optional
+        Whether to overwrite an existing function with the same name (default is False).
+
+    Returns
+    -------
+    function
+        The decorated function.
+
+    """
     package_name = "mypylib"
     base_path = mypylib.__path__[0]
 
