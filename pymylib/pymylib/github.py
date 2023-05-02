@@ -1,8 +1,8 @@
-import mypylib
+import pymylib
 import subprocess
 import os
 
-def push_to_github(commit_message, repo_path=mypylib.__path__[0], remote_name="origin", branch_name="main"):
+def push_to_github(commit_message, repo_path=pymylib.__path__[0], remote_name="origin", branch_name="main"):
     """Pushes the changes made in a local Git repository to a remote GitHub repository.
 
     Parameters
@@ -10,7 +10,7 @@ def push_to_github(commit_message, repo_path=mypylib.__path__[0], remote_name="o
     commit_message : str
         The commit message to use when committing the changes to Git.
     repo_path : str, optional
-        The path to the local Git repository to push (default is the path to the 'mypylib' module).
+        The path to the local Git repository to push (default is the path to the 'pymylib' module).
     remote_name : str, optional
         The name of the remote Git repository to push to (default is 'origin').
     branch_name : str, optional
@@ -41,13 +41,13 @@ def push_to_github(commit_message, repo_path=mypylib.__path__[0], remote_name="o
     return True
 
 
-def pull_from_github(repo_path=mypylib.__path__[0], remote_name="origin", branch_name="main"):
+def pull_from_github(repo_path=pymylib.__path__[0], remote_name="origin", branch_name="main"):
     """Pulls the latest changes from a remote GitHub repository to a local Git repository.
 
     Parameters
     ----------
     repo_path : str, optional
-        The path to the local Git repository to pull (default is the path to the 'mypylib' module).
+        The path to the local Git repository to pull (default is the path to the 'pymylib' module).
     remote_name : str, optional
         The name of the remote Git repository to pull from (default is 'origin').
     branch_name : str, optional
