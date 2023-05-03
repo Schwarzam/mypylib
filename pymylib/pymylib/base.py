@@ -108,15 +108,13 @@ def add_function(function_name, source_code, module, collection="", overwrite=Fa
     
     module_path = os.path.join(collection_folder, module + ".py")
 
-    try:
+    if os.path.exists(module_path):
         if file_contains_function(module_path, function_name):
             if not overwrite:
                 raise Exception(f"The function {function_name} already exists in the {collection} {module}. If you want to overwrite it, set overwrite=True.")
             else:
                 remove_function_from_file(module_path, function_name)
-    except:
-        pass
-
+    
     with open(module_path, "a") as file:
         file.write("\n" + source_code + "\n")
         
